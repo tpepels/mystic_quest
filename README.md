@@ -28,13 +28,12 @@ Desperate for a solution, VirtuWorld Inc. reached out to your university's compu
 
 ## Objective
 
-Your task is to script the resurgence of the entire game world from scratch. Your script will define the properties of all the essential entities like players, guilds, items, enemies, and many more. You can use a predefined JSON schema (`entities.json`) to help populate the world with various entities, using either predefined data sources or your own custom data pools.
+Your task is to script the resurgence of the entire game world from scratch. The provided script will generate the properties of all the essential entities like players, guilds, items, enemies, and many more. You can use a predefined JSON schema (`entities.json`) to help populate the world with various entities, using either predefined data sources or your own custom data pools.
 
 ### Requirements
 
 - At least the following entity types should be defined: `player`, `event`, `item`, `enemy`, `team`, `npc`, `guild`, and `dialogue`.
 - You can choose from a set of predefined value sources like `race_names`, `class_names`, `item_types`, etc., to populate fields for these entities, or you can use basic data types like `int`, `string`, and `float`.
-
 - Customization is encouraged! Feel free to add extra entities, attributes, or any creative twist that you think would make the virtual world more interesting.
 
 ## Let's bring the VirtuWorld back to life!
@@ -148,7 +147,7 @@ This file contains a list of events that describe relationships between various 
 
 Feel free to run the script multiple times to generate different sets of data. The generated files can be utilized for various testing and simulation purposes.
 
-The `entities.json` file appears to be a JSON-formatted configuration file that defines various entities and their fields for some kind of game or simulation. Let's break down the elements:
+The `entities.json` is a JSON-formatted configuration file that defines various entities and their fields for some kind of game or simulation. Let's break down the elements:
 
 ### Structure
 
@@ -159,7 +158,7 @@ The `entities.json` file appears to be a JSON-formatted configuration file that 
 #### Entity Object
 
 - **`name`**: The name of the entity (e.g., "Dialogue", "GuildName", "Character").
-- **`type`**: The type of the entity, which seems to categorize the entity into a specific domain (e.g., "dialogue", "guild", "player").
+- **`type`**: The type of the entity, which seems to categorize the entity into a specific domain ("player", "event", "item", "enemy", "team", "npc", "guild", "team", "dialogue").
 
 - **`fields`**: An array of field objects that describe the attributes of each entity.
 
@@ -176,6 +175,7 @@ Based on the structure of the file, the minimum that must be defined for an enti
 
 - `name`: A string indicating the name of the entity.
 - `type`: A string indicating the type of the entity.
+- The following types _must_ be defined in your `entities.json`: "player", "event", "item", "enemy", "team", "npc", "guild", "team", "dialogue"
 - `fields`: An array with at least one field object, which must have:
   - `name`: The name of the field.
   - `datatype`: The datatype of the field.
@@ -186,8 +186,8 @@ Here's an example with the minimum fields:
 {
   "entities": [
     {
-      "name": "MinimalEntity",
-      "type": "someType",
+      "name": "user",
+      "type": "player",
       "fields": [
         {
           "name": "id",
@@ -203,7 +203,7 @@ Here's an example with the minimum fields:
 
 #### Entity Types
 
-Students must at least define these entity types:
+You must at least define these entity types:
 
 - `player`
 - `event`
@@ -220,6 +220,93 @@ These are the foundational elements of the game world and its logic.
 
 The `value_source` can be any of the predefined categories ("blueprints", "enemy_names", "guild_names", etc.) or the basic data types ("int", "string", "float"). These sources serve as the pool from which values for fields will be derived.
 
+## Value Source Descriptions
+
+### Blueprints
+
+- **Key**: `blueprints`
+- **Description**: This key holds the blueprint data for creating in-game entities.
+
+### Blueprint Types
+
+- **Key**: `blueprint_types`
+- **Description**: Defines the different types of blueprints available in the game.
+
+### Enemy Names
+
+- **Key**: `enemy_names`
+- **Description**: A list of names for enemy characters.
+
+### Enemy Types
+
+- **Key**: `enemy_types`
+- **Description**: Classifies enemies into various categories or types.
+
+### Guild Names
+
+- **Key**: `guild_names`
+- **Description**: Names for different guilds within the game world.
+
+### Guild Types
+
+- **Key**: `guild_types`
+- **Description**: Describes the various kinds of guilds, such as trading guilds or warrior guilds.
+
+### Team Names
+
+- **Key**: `team_names`
+- **Description**: A list of possible team names for in-game squads.
+
+### Dialogues
+
+- **Key**: `dialogues`
+- **Description**: Holds the dialogue lines used in conversations within the game.
+
+### Event Names
+
+- **Key**: `event_names`
+- **Description**: A list of names for in-game events.
+
+### First Names
+
+- **Key**: `first_names`
+- **Description**: Holds the first names that can be assigned to characters.
+
+### Last Names
+
+- **Key**: `last_names`
+- **Description**: Holds the last names that can be assigned to characters.
+
+### Item Names
+
+- **Key**: `item_names`
+- **Description**: A list of names for in-game items.
+
+### Race Names and Descriptions
+
+- **Keys**: `race_names`, `race_descriptions`
+- **Description**: Lists the names and descriptions of the races available for character creation.
+
+### Item Types
+
+- **Key**: `item_types`
+- **Description**: Categorizes items into different types, such as swords or potions.
+
+### Class Names and Descriptions
+
+- **Keys**: `class_names`, `class_descriptions`
+- **Description**: Defines the classes available for characters, and provides a brief description of each.
+
+### Kingdom Names
+
+- **Key**: `kingdom_names`
+- **Description**: Lists the names of various kingdoms within the game world.
+
+### NPC Types and Descriptions
+
+- **Keys**: `npc_types`, `npc_descriptions`
+- **Description**: Specifies the types of Non-Playable Characters (NPCs) and their roles in the game.
+
 ### How Students Can Customize
 
 1. **Modify Fields**: You can decide what fields are important for each entity type, from primary identifiers to descriptors and attributes.
@@ -228,7 +315,7 @@ The `value_source` can be any of the predefined categories ("blueprints", "enemy
 
 3. **Data Types**: You can specify the data type for each field according to their need, choosing from "int", "string", or "float".
 
-4. **Optional Types**: You may include additional meta-types or attributes for specific fields, like specifying a primary key.
+4. **Optional Types**: You must specify one primary key for each entity, the best option is to set it to name: "id" with datatype "int".
 
 5. **New Entity Types**: While they should at least include the essential entity types, they are free to create new ones as needed by their project.
 

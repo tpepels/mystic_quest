@@ -1,30 +1,35 @@
+import csv
 import datetime
 import json
 import random
 import uuid
 
-from entity_export import all_types
 from prettytable import PrettyTable
-import random
-import csv
-import uuid
+
 
 def load_csv_to_list(file_name, entity_type):
+    
     loaded_list = []
     loaded_list_second_column = []
-    
-    with open(file_name, 'r') as csvfile:
-        csv_reader = csv.reader(csvfile)
-        for row in csv_reader:
-            if entity_type in ['kingdom', 'team_name', 'blueprint', 'dialogue', 'event_name', 'first_name', 'last_name']:
-                # Assuming the CSV has a single column for these types
-                loaded_list.append(row[0])
-            elif entity_type in ['npc', 'enemy', 'item_name', 'guild']:
-                # Assuming the CSV has two columns: 'type' and 'description'
-                loaded_list.append(row[0])
-                loaded_list_second_column.append(row[1])
-            else:
-                print("Unknown entity type")
+    try:
+        with open(file_name, 'r') as csvfile:
+            csv_reader = csv.reader(csvfile)
+            for row in csv_reader:
+                if entity_type in ['kingdom', 'team_name', 'blueprint', 'dialogue', 'event_name', 'first_name', 'last_name']:
+                    # Assuming the CSV has a single column for these types
+                    loaded_list.append(row[0])
+                elif entity_type in ['npc', 'enemy', 'item_name', 'guild']:
+                    # Assuming the CSV has two columns: 'type' and 'description'
+                    loaded_list.append(row[0])
+                    loaded_list_second_column.append(row[1])
+                else:
+                    print("Unknown entity type")
+    except FileNotFoundError:
+        print(f"File {file_name} not found.")
+        return [], []
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return [], []
 
     return loaded_list, loaded_list_second_column
 
@@ -38,7 +43,6 @@ first_names, _ = load_csv_to_list('data/first_names.csv', 'first_name')
 last_names, _ = load_csv_to_list('data/last_names.csv', 'last_name')
 
 item_names, item_types = load_csv_to_list('data/item_names.csv', 'item_name')
-
 # Populate the all_types dictionary
 all_types = {
     "blueprints": blueprints,
@@ -97,17 +101,6 @@ all_types_with_ids = {}
 
 for key, value in all_types.items():
     all_types_with_ids[key] = generate_unique_ids(value)
-
-def get_random_entity(entity_type):    
-    try:
-        # Get the correct list based on the entity_type
-        entity_list = all_types_with_ids[entity_type]
-        # Randomly select a key (unique ID) from the dictionary
-        random_key = random.choice(list(entity_list.keys()))
-        # Return the corresponding value
-        return entity_list[random_key]
-    except KeyError:
-        return "Unknown entity type"
 
 # Function to print records in a colorful, well-formatted way
 def print_colorful_table(entity_name, records):
@@ -172,6 +165,7 @@ def generate_random_value(datatype):
         return None
     
 import random
+
 
 def generate_word_like_string(length):
     vowels = 'aeiou'
