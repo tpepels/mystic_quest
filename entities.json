@@ -1,7 +1,7 @@
 {
     "entities": [
         {
-            "name": "Dialogue",
+            "name": "questions",
             "type": "dialogue",
             "fields": [
                 {
@@ -16,6 +16,10 @@
                 },
                 {
                     "name": "choice_options",
+                    "datatype": "int"
+                },
+                {
+                    "name": "emotion",
                     "datatype": "int"
                 }
             ]
@@ -69,7 +73,7 @@
                     "value_source": "first_names"
                 },
                 {
-                    "name": "last_name",
+                    "name": "firstname",
                     "datatype": "string",
                     "value_source": "last_names"
                 },
