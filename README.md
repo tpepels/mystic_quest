@@ -1,5 +1,19 @@
 # Project: Operation Data Resurgence
 
+## Initial Setup: Installing PrettyTable
+
+Before diving into the project, you'll need to install the `prettytable` Python package. This package will help you display your generated game world entities in a well-formatted and easy-to-read table format. To install `prettytable`, run the following command in your terminal:
+
+```bash
+pip install prettytable
+```
+
+Or, if you're using Python 3, use:
+
+```bash
+pip3 install prettytable
+```
+
 ## Background Story
 
 ### The Crisis
@@ -208,17 +222,15 @@ The `value_source` can be any of the predefined categories ("blueprints", "enemy
 
 ### How Students Can Customize
 
-1. **Modify Fields**: Students can decide what fields are important for each entity type, from primary identifiers to descriptors and attributes.
+1. **Modify Fields**: You can decide what fields are important for each entity type, from primary identifiers to descriptors and attributes.
 
-2. **Value Sources**: They can choose to use predefined value sources or create their own categories. They can also decide not to use a value source for specific fields, like IDs or counters.
+2. **Value Sources**: You can choose to use predefined value sources or create their own categories. They can also decide not to use a value source for specific fields, like IDs or counters.
 
-3. **Data Types**: They can specify the data type for each field according to their need, choosing from "int", "string", or "float".
+3. **Data Types**: You can specify the data type for each field according to their need, choosing from "int", "string", or "float".
 
-4. **Optional Types**: Students may include additional meta-types or attributes for specific fields, like specifying a primary key.
+4. **Optional Types**: You may include additional meta-types or attributes for specific fields, like specifying a primary key.
 
 5. **New Entity Types**: While they should at least include the essential entity types, they are free to create new ones as needed by their project.
-
-6. **Complex Types**: Advanced structures like arrays or nested objects could also be used if the project demands more complexity.
 
 ### Example of a Customized Entity
 
