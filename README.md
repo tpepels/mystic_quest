@@ -1,3 +1,38 @@
+# Project README: Operation Data Resurgence
+
+## Background Story
+
+### The Crisis
+
+In an unprecedented event, VirtuWorld Inc., a leading gaming company, experienced a catastrophic server failure that resulted in a complete loss of all game world data. The incident left the company scrambling as they had neither a backup nor a recovery plan in place—yes, a colossal oversight in today's world of high-availability and redundancy.
+
+VirtuWorld Inc. was facing not only a public relations disaster but also the monumental task of restoring the virtual world and all the entities that make it whole. The loss was immense: characters, items, quests, enemies, events, guilds, and more had vanished, leaving an empty void in place of the once-vibrant realms.
+
+### The Call to Action
+
+Desperate for a solution, VirtuWorld Inc. reached out to your university's computer science department, asking for help to rebuild their world data structure. Given the complexity and sheer volume of data that needed to be restored, they were willing to try anything—even if it meant turning the project into an academic exercise for students. They saw promise in your coding talents and your creative capabilities, enough so that they believe you can rebuild what was lost.
+
+## Objective
+
+Your task is to script the resurgence of the entire game world from scratch. Your script will define the properties of all the essential entities like players, guilds, items, enemies, and many more. You can use a predefined JSON schema (`entities.json`) to help populate the world with various entities, using either predefined data sources or your own custom data pools.
+
+### Requirements
+
+- At least the following entity types should be defined: `player`, `event`, `item`, `enemy`, `team`, `npc`, `guild`, and `dialogue`.
+- You can choose from a set of predefined value sources like `race_names`, `class_names`, `item_types`, etc., to populate fields for these entities, or you can use basic data types like `int`, `string`, and `float`.
+
+- Customization is encouraged! Feel free to add extra entities, attributes, or any creative twist that you think would make the virtual world more interesting.
+
+## Let's bring the VirtuWorld back to life!
+
+The future of VirtuWorld Inc. and the joy of countless gamers is in your hands. Good luck, and may the odds be ever in your favor to restore the game world to its former glory!
+
+---
+
+For any queries, please reach out to (no-one will answer) [contact@virtuworld.inc](mailto:contact@virtuworld.inc).
+
+Happy coding! 🌐🛠️
+
 # README.md for the Data Generation Script
 
 ## Part 1: How to Run the Script
