@@ -106,7 +106,6 @@ for key, value in all_types.items():
 def print_colorful_table(entity_name, records):
     """
     Prints records in a colorful, well-formatted way
-
     Args:
         entity_name (str): The name of the entity to be printed
         records (list): The records to be printed
@@ -199,6 +198,7 @@ with open('entities.json', 'r') as f:
 
 # Dictionary to keep track of generated primary keys and UUIDs
 primary_keys = {}
+last_used_ids = {}
 # Dictionary to store generated records for each entity type
 all_generated_records = {}
 # Define the entity types
@@ -219,11 +219,18 @@ for entity in entity_definitions:
             field_name = field['name']
             datatype = field['datatype']
 
-            # Generate primary key and store with UUID
+            # Generate primary key and store with unique integer ID
             if field.get('type') == 'primary_key':
-                primary_key = uuid.uuid4()
-                primary_keys[(entity_name, primary_key)] = generate_random_value(datatype)
-                record[field_name] = primary_keys[(entity_name, primary_key)]
+                # Initialize counter for new entities
+                if entity_type not in last_used_ids:
+                    last_used_ids[entity_type] = 0
+                
+                # Increment counter for the entity
+                last_used_ids[entity_type] += random.randint(1, 3)
+
+                # Store the primary key
+                record[field_name] = last_used_ids[entity_type]
+
 
             # Generate value from predefined lists if 'value_source' exists
             elif 'value_source' in field:

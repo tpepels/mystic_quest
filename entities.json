@@ -218,6 +218,36 @@
                     "datatype": "float"
                 }
             ]
+        },
+        {
+            "name": "Vendors",
+            "type": "npc",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "npc_type",
+                    "datatype": "string",
+                    "value_source": "npc_types"
+                },
+                {
+                    "name": "first_name",
+                    "datatype": "string",
+                    "value_source": "first_names"
+                },
+                {
+                    "name": "last_name",
+                    "datatype": "string",
+                    "value_source": "last_names"
+                },
+                {
+                    "name": "location",
+                    "datatype": "float"
+                }
+            ]
         }
     ]
 }
