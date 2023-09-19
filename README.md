@@ -76,7 +76,7 @@ python generate_data.py
 
 5. **Shuffle and Save**: All generated records are then shuffled and saved into two files: `generated_entities.txt` and `generated_events.txt`.
 
----
+## Note that you can run the script without changing anything and it will generate data. If you want to have the data match your schema, you can alter `entities.json` to do so.
 
 ## Part 2: Generated Files
 
@@ -361,4 +361,4 @@ Here's an example of a customized "player" entity:
 }
 ```
 
-In this example, the "player" entity has been customized to include a "username" field and an "inventory" field, along with other standard attributes like "id" and "race". Note that, the "name" "Player" is the name for the table in your database, whereas the "type" player is the type that informs the script that it is the table where player information is stored.
+In this example, the "player" entity has been customized to include a "username" field and an "inventory" field, along with other standard attributes like "id" and "race". Note that, the "name" "Player" is the name for the table in your database (i.e. you may change this and it will not have any effect on the functioning of the script), whereas the "type" player is the type that informs the script that it is the table where player information is stored.
