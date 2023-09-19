@@ -1,4 +1,4 @@
-# Project README: Operation Data Resurgence
+# Project: Operation Data Resurgence
 
 ## Background Story
 
@@ -33,7 +33,7 @@ For any queries, please reach out to (no-one will answer) [contact@virtuworld.in
 
 Happy coding! 🌐🛠️
 
-# README.md for the Data Generation Script
+# The Data Generation Script
 
 ## Part 1: How to Run the Script
 
