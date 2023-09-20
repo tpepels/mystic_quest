@@ -76,7 +76,7 @@ python generate_data.py
 
 5. **Shuffle and Save**: All generated records are then shuffled and saved into two files: `generated_entities.txt` and `generated_events.txt`.
 
-## Note that you can run the script without changing anything and it will generate data. If you want to have the data match your schema, you can alter `entities.json` to do so.
+*Note that you can run the script without changing anything and it will generate data. If you want to have the data match your schema, you can alter `entities.json` to do so.*
 
 ## Part 2: Generated Files
 
