@@ -91,6 +91,10 @@
                     "name": "guild",
                     "datatype": "string",
                     "value_source": "guild_names"
+                },
+                {
+                    "name": "last_login",
+                    "datatype": "datetime"
                 }
             ]
         },

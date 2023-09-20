@@ -2,12 +2,61 @@ import csv
 import datetime
 import json
 import random
-import uuid
 
 from prettytable import PrettyTable
 
+def print_colorful_table(entity_name, records):
+    """
+    Prints records in a colorful, well-formatted way
+    Args:
+        entity_name (str): The name of the entity to be printed
+        records (list): The records to be printed
+    """
+    if not records:
+        return
+    # Get headers
+    headers = records["records"][0].keys()
+    entity_type = records["type"]
+    # Create a PrettyTable object
+    x = PrettyTable()
+    # Set the field names
+    x.field_names = headers
+    # Populate rows
+    for record in records["records"]:
+        x.add_row(record.values())
+
+    print(f"{entity_name} ({entity_type=}) Table:")
+    print(x)
+    print()
+    
+"""
+Value source generation
+"""    
 
 def load_csv_to_list(file_name, entity_type):
+    """
+        Load data from a CSV file to a list based on the entity_type.
+        
+        Parameters:
+        file_name (str): The name of the CSV file to read.
+        entity_type (str): The type of the entity, used to determine how to read the data.
+
+        Returns:
+        tuple: A tuple containing two lists.
+            - The first list contains values from the first column of the CSV.
+            - The second list contains values from the second column of the CSV, if applicable.
+
+        Exceptions:
+        FileNotFoundError: Raised if the file specified by file_name is not found.
+        Exception: Catches all other exceptions and prints an error message.
+
+        Example Usage:
+        >>> load_csv_to_list('kingdoms.csv', 'kingdom')
+        (['Kingdom1', 'Kingdom2'], [])
+        
+        >>> load_csv_to_list('npcs.csv', 'npc')
+        (['NPC1', 'NPC2'], ['Description1', 'Description2'])
+    """
     
     loaded_list = []
     loaded_list_second_column = []
@@ -26,10 +75,7 @@ def load_csv_to_list(file_name, entity_type):
                     print("Unknown entity type")
     except FileNotFoundError:
         print(f"File {file_name} not found.")
-        return [], []
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return [], []
+        raise FileNotFoundError()
 
     return loaded_list, loaded_list_second_column
 
@@ -41,9 +87,9 @@ dialogue, _ = load_csv_to_list('data/dialogues.csv', 'dialogue')
 event_names, _ = load_csv_to_list('data/event_names.csv', 'event_name')
 first_names, _ = load_csv_to_list('data/first_names.csv', 'first_name')
 last_names, _ = load_csv_to_list('data/last_names.csv', 'last_name')
-
 item_names, item_types = load_csv_to_list('data/item_names.csv', 'item_name')
-# Populate the all_types dictionary
+
+# A dictionary with all value sources
 all_types = {
     "blueprints": blueprints,
     "blueprint_types": blueprint_types,
@@ -89,44 +135,10 @@ all_types = {
     ],
 }
 
-def generate_unique_ids(data_list):
-    id_dict = {}
-    for item in data_list:
-        unique_id = str(uuid.uuid4())
-        id_dict[unique_id] = item
-    return id_dict
 
-# Create a new dictionary to hold the ID-mapped data
-all_types_with_ids = {}
-
-for key, value in all_types.items():
-    all_types_with_ids[key] = generate_unique_ids(value)
-
-# Function to print records in a colorful, well-formatted way
-def print_colorful_table(entity_name, records):
-    """
-    Prints records in a colorful, well-formatted way
-    Args:
-        entity_name (str): The name of the entity to be printed
-        records (list): The records to be printed
-    """
-    if not records:
-        return
-    # Get headers
-    headers = records["records"][0].keys()
-    entity_type = records["type"]
-    # Create a PrettyTable object
-    x = PrettyTable()
-    # Set the field names
-    x.field_names = headers
-    # Populate rows
-    for record in records["records"]:
-        x.add_row(record.values())
-
-    print(f"{entity_name} ({entity_type=}) Table:")
-    print(x)
-    print("-"*30)
-    print()
+# Start and end dates for the generated data
+start_date = datetime.datetime(2021, 1, 1, 0, 0, 0)
+end_date = datetime.datetime(2023, 9, 14, 23, 59, 59)
 
 def get_random_entity(entity_type):
     """
@@ -160,13 +172,49 @@ def generate_random_value(datatype):
         return round(random.uniform(1.0, 1000.0), 2)
     elif datatype == 'string':
         return generate_word_like_string(random.randint(3, 8))
+    elif datatype == 'datetime':
+        return generate_random_timestamp(start_date, end_date).isoformat()
     else:
         return None
     
 import random
 
+def generate_random_timestamp(start, end):
+    """
+    Generate a random datetime between `start` and `end`
+
+    Args:
+        start (int): The lower bound of the random datetime
+        end (int): The upper bound of the random datetime
+
+    Returns:
+        (datetime): a datetime object between `start` and `end`
+    """
+    time_between_dates = end - start
+    random_number_of_seconds = random.randrange(int(time_between_dates.total_seconds()))
+    return start + datetime.timedelta(seconds=random_number_of_seconds)
 
 def generate_word_like_string(length):
+    """
+    Generate a word-like string of a specified length with realistic phoneme structures.
+    
+    Parameters:
+    length (int): The length of the word-like string to generate.
+
+    Returns:
+    str: A generated word-like string of the specified length.
+
+    Example Usage:
+    >>> generate_word_like_string(5)
+    'pralo'
+    
+    >>> generate_word_like_string(8)
+    'tramisca'
+
+    Notes:
+    - The function uses clusters of consonants and individual vowels to create realistic word-like strings.
+    - Phoneme structures are simulated to ensure that clusters of vowels and consonants are reasonable.
+    """
     vowels = 'aeiou'
     clusters = ['bl', 'br', 'cl', 'cr', 'dr', 'fl', 'fr', 'gl', 'gr', 'pl', 'pr', 'sc', 'sk', 'sl', 'sm', 'sn', 'sp', 'st', 'sw', 'tr']
     # Determine individual consonants that are not part of a cluster
@@ -191,6 +239,54 @@ def generate_word_like_string(length):
     
     return word
 
+def generate_relation(entity1_type, entity2_type):
+    """
+    Generate a relation between two types of game entities.
+    
+    Parameters:
+    entity1_type (str): The type of the first entity involved in the relation.
+    entity2_type (str): The type of the second entity involved in the relation.
+    
+    Returns:
+    tuple: A tuple containing:
+        - value (str or None): A string representing the relation type or None if no relation is defined.
+        - additional_entity_type (str or None): The type of an additional entity involved in the relation, or None.
+
+    Example Usage:
+    >>> generate_relation("player", "npc")
+    ('Talked', 'dialogue')
+    
+    >>> generate_relation("npc", "quest")
+    ('Gave Quest', None)
+
+    Notes:
+    - The function defines predefined relations between various game entity types.
+    - The 'additional_entity_type' provides context for more complex relations that involve an additional entity.
+    
+    """
+    value = None
+    additional_entity_type = None  # Initialize to None
+    
+    if entity1_type == "player" and entity2_type == "npc":
+        value = random.choice(["Talked", "Fought", "Ignored", "Bought From", "Sold To"])
+        if value == "Talked":
+            additional_entity_type = "dialogue"
+        elif value in ["Bought From", "Sold To"]:
+            additional_entity_type = "item"
+    elif entity1_type == "npc" and entity2_type == "dialogue":
+        value = random.choice(["Started Conversation", "Ended Conversation"])
+    elif entity1_type == "npc" and entity2_type == "quest":
+        value = random.choice(["Gave Quest", "Completed Quest"])
+    elif entity1_type == "item" and entity2_type == "npc":
+        value = random.choice(["Given", "Taken"])
+    elif entity1_type == "player" and entity2_type == "guild":
+        value = random.choice(["Joined", "Left", "Promoted"])
+    elif entity1_type == "player" and entity2_type == "team":
+        value = random.choice(["Joined", "Left", "Captained"])
+    elif entity1_type == "player" and entity2_type == "enemy":
+        value = random.choice(["Defeated", "Escaped", "Captured"])
+    
+    return value, additional_entity_type  # This will return the 'value' and 'additional_entity_type', which may be None
     
 # Read the JSON file containing the entity definitions
 with open('entities.json', 'r') as f:
@@ -269,41 +365,6 @@ with open('generated_entities.txt', 'w') as f:
 # Initialize a list to store generated events
 generated_events = []
 
-start_date = datetime.datetime(2021, 1, 1, 0, 0, 0)
-end_date = datetime.datetime(2022, 12, 31, 23, 59, 59)
-
-def generate_random_timestamp(start, end):
-    time_between_dates = end - start
-    random_number_of_seconds = random.randrange(int(time_between_dates.total_seconds()))
-    return start + datetime.timedelta(seconds=random_number_of_seconds)
-
-def generate_value(entity1_type, entity2_type):
-    value = None
-    additional_entity_type = None  # Initialize to None
-    
-    if entity1_type == "player" and entity2_type == "npc":
-        value = random.choice(["Talked", "Fought", "Ignored", "Bought From", "Sold To"])
-        if value == "Talked":
-            additional_entity_type = "dialogue"
-        elif value in ["Bought From", "Sold To"]:
-            additional_entity_type = "item"
-    elif entity1_type == "npc" and entity2_type == "dialogue":
-        value = random.choice(["Started Conversation", "Ended Conversation"])
-    elif entity1_type == "npc" and entity2_type == "quest":
-        value = random.choice(["Gave Quest", "Completed Quest"])
-    elif entity1_type == "item" and entity2_type == "npc":
-        value = random.choice(["Given", "Taken"])
-    elif entity1_type == "player" and entity2_type == "guild":
-        value = random.choice(["Joined", "Left", "Promoted"])
-    elif entity1_type == "player" and entity2_type == "team":
-        value = random.choice(["Joined", "Left", "Captained"])
-    elif entity1_type == "player" and entity2_type == "enemy":
-        value = random.choice(["Defeated", "Escaped", "Captured"])
-    
-    return value, additional_entity_type  # This will return the 'value' and 'additional_entity_type', which may be None
-
-
-
 for _ in range(20000):
     value = additional_entity_type = None  # Initialize to None
     # Skip this iteration if no valid relationship is found
@@ -315,7 +376,7 @@ for _ in range(20000):
             entity2_type = random.choice(entity_types)
 
         # Generate value based on entity types
-        value, additional_entity_type = generate_value(entity1_type, entity2_type)
+        value, additional_entity_type = generate_relation(entity1_type, entity2_type)
 
     entity1_records = None
     entity2_records = None
@@ -373,7 +434,8 @@ with open('generated_events.txt', 'w') as f:
             f.write(f"[Additional Entity Type]: {additional_entity_type}\n")
             f.write(f"[Additional Entity]: {event.get('additional_entity', 'N/A')}\n")
         f.write("=====\n")
-print("-"*30)
-print("- Data generation complete! - ")
-print("Two files have been generated: 'generated_events.txt' and 'generated_entities.txt'. Load the contents of these files into your database.")
-print("-"*30)
+        
+print("-"*40)
+print("\n- Data generation complete! - \n")
+print("Two files have been generated:\n - 'generated_events.txt' and,\n - 'generated_entities.txt'.\n Load the contents of these files into your database.\n")
+print("-"*40)
