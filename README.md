@@ -224,94 +224,33 @@ These are the foundational elements of the game world and its logic. The script 
 
 #### Value Source
 
-The `value_source` can be any of the predefined categories ("blueprints", "enemy_names", "guild_names", etc.) or the basic data types ("int", "string", "float"). These sources serve as the pool from which values for fields will be derived.
+The `value_source` can be any of the predefined categories ("blueprints", "enemy_names", "guild_names", etc.). These sources serve as the pool from which values for fields will be derived. So if you want the script to generate some meaningful values for a given table, use these to generate the following types of data:
 
 ## Value Source Descriptions
 
-### Blueprints
+| Key                 | Description                                                                                     |
+|---------------------|-------------------------------------------------------------------------------------------------|
+| `blueprints`        | Source for generating random blueprint data for in-game entities.                                |
+| `blueprint_types`   | Source for randomly selecting the types of blueprints available.                                 |
+| `enemy_names`       | Source for generating random names for enemy characters.                                         |
+| `enemy_types`       | Source for randomly classifying enemies into various categories.                                 |
+| `guild_names`       | Source for generating random names for different guilds.                                         |
+| `guild_types`       | Source for describing random types of guilds (e.g., trading, warrior).                           |
+| `team_names`        | Source for generating random team names for in-game squads.                                      |
+| `dialogues`         | Source for generating random dialogue lines for in-game conversations.                           |
+| `event_names`       | Source for generating random names for in-game events.                                           |
+| `first_names`       | Source for generating random first names for characters.                                         |
+| `last_names`        | Source for generating random last names for characters.                                          |
+| `item_names`        | Source for generating random names for in-game items.                                            |
+| `race_names`        | Source for randomly listing names of character races.                                             |
+| `race_descriptions` | Source for randomly listing descriptions of character races.                                      |
+| `item_types`        | Source for categorizing random item types (e.g., swords, potions).                                |
+| `class_names`       | Source for defining random classes available for characters.                                      |
+| `class_descriptions`| Source for providing brief descriptions of each randomly defined class.                           |
+| `kingdom_names`     | Source for generating random names for various kingdoms.                                         |
+| `npc_types`         | Source for specifying random types of Non-Playable Characters (NPCs).                             |
+| `npc_descriptions`  | Source for describing the roles of each randomly specified type of NPC.                           |
 
-- **Key**: `blueprints`
-- **Description**: This key holds the blueprint data for creating in-game entities.
-
-### Blueprint Types
-
-- **Key**: `blueprint_types`
-- **Description**: Defines the different types of blueprints available in the game.
-
-### Enemy Names
-
-- **Key**: `enemy_names`
-- **Description**: A list of names for enemy characters.
-
-### Enemy Types
-
-- **Key**: `enemy_types`
-- **Description**: Classifies enemies into various categories or types.
-
-### Guild Names
-
-- **Key**: `guild_names`
-- **Description**: Names for different guilds within the game world.
-
-### Guild Types
-
-- **Key**: `guild_types`
-- **Description**: Describes the various kinds of guilds, such as trading guilds or warrior guilds.
-
-### Team Names
-
-- **Key**: `team_names`
-- **Description**: A list of possible team names for in-game squads.
-
-### Dialogues
-
-- **Key**: `dialogues`
-- **Description**: Holds the dialogue lines used in conversations within the game.
-
-### Event Names
-
-- **Key**: `event_names`
-- **Description**: A list of names for in-game events.
-
-### First Names
-
-- **Key**: `first_names`
-- **Description**: Holds the first names that can be assigned to characters.
-
-### Last Names
-
-- **Key**: `last_names`
-- **Description**: Holds the last names that can be assigned to characters.
-
-### Item Names
-
-- **Key**: `item_names`
-- **Description**: A list of names for in-game items.
-
-### Race Names and Descriptions
-
-- **Keys**: `race_names`, `race_descriptions`
-- **Description**: Lists the names and descriptions of the races available for character creation.
-
-### Item Types
-
-- **Key**: `item_types`
-- **Description**: Categorizes items into different types, such as swords or potions.
-
-### Class Names and Descriptions
-
-- **Keys**: `class_names`, `class_descriptions`
-- **Description**: Defines the classes available for characters, and provides a brief description of each.
-
-### Kingdom Names
-
-- **Key**: `kingdom_names`
-- **Description**: Lists the names of various kingdoms within the game world.
-
-### NPC Types and Descriptions
-
-- **Keys**: `npc_types`, `npc_descriptions`
-- **Description**: Specifies the types of Non-Playable Characters (NPCs) and their roles in the game.
 
 ### How Students Can Customize
 
