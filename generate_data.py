@@ -196,13 +196,19 @@ def generate_word_like_string(length):
 with open('entities.json', 'r') as f:
     entity_definitions = json.load(f)['entities']
 
-# Dictionary to keep track of generated primary keys and UUIDs
-primary_keys = {}
 last_used_ids = {}
 # Dictionary to store generated records for each entity type
 all_generated_records = {}
 # Define the entity types
 entity_types = ["player", "event", "item", "enemy", "team", "npc", "guild", "team", "dialogue"]
+# Collect the types from entity definitions
+defined_entity_types = set(entity['type'] for entity in entity_definitions)
+
+# Check for missing entity types and throw an exception if any are missing
+missing_entity_types = set(entity_types) - defined_entity_types
+if missing_entity_types:
+    raise ValueError(f"The following entity types are missing in the entity definitions: {', '.join(missing_entity_types)}. All types must be defined; \n {', '.join(entity_types)}")
+
 # Loop through each entity definition and generate data
 for entity in entity_definitions:
     entity_name = entity['name']
@@ -227,10 +233,8 @@ for entity in entity_definitions:
                 
                 # Increment counter for the entity
                 last_used_ids[entity_type] += random.randint(1, 3)
-
                 # Store the primary key
                 record[field_name] = last_used_ids[entity_type]
-
 
             # Generate value from predefined lists if 'value_source' exists
             elif 'value_source' in field:
@@ -369,3 +373,7 @@ with open('generated_events.txt', 'w') as f:
             f.write(f"[Additional Entity Type]: {additional_entity_type}\n")
             f.write(f"[Additional Entity]: {event.get('additional_entity', 'N/A')}\n")
         f.write("=====\n")
+print("-"*30)
+print("- Data generation complete! - ")
+print("Two files have been generated: 'generated_events.txt' and 'generated_entities.txt'. Load the contents of these files into your database.")
+print("-"*30)
