@@ -33,7 +33,7 @@ Your task is to script the resurgence of the entire game world from scratch. The
 ### Requirements
 
 - At least the following entity types should be defined: `player`, `event`, `item`, `enemy`, `team`, `npc`, `guild`, and `dialogue`.
-- You can choose from a set of predefined value sources like `race_names`, `class_names`, `item_types`, etc., to populate fields for these entities, or you can use basic data types like `int`, `string`, and `float`.
+- You can choose from a set of predefined value sources like `race_names`, `class_names`, `item_types`, etc., to populate fields for these entities, or you can use basic data types: `datetime`, `int`, `string`, and `float`.
 - Customization is encouraged! Feel free to add extra entities, attributes, or any creative twist that you think would make the virtual world more interesting.
 
 ## Let's bring the VirtuWorld back to life!
@@ -76,7 +76,7 @@ python generate_data.py
 
 5. **Shuffle and Save**: All generated records are then shuffled and saved into two files: `generated_entities.txt` and `generated_events.txt`.
 
-*Note that you can run the script without changing anything and it will generate data. If you want to have the data match your schema, you can alter `entities.json` to do so.*
+_Note that you can run the script without changing anything and it will generate data. If you want to have the data match your schema, you can alter `entities.json` to do so._
 
 ## Part 2: Generated Files
 
@@ -170,7 +170,7 @@ Let's break down the elements:
 #### Field Object
 
 - **`name`**: The name of the field (e.g., "id", "content", "choice_options").
-- **`datatype`**: The type of data that the field can hold (e.g., "int", "string").
+- **`datatype`**: The type of data that the field can hold ("int", "string", "float", "datetime").
 - **`type`**: Optional. Defines special types of fields like "primary_key".
 - **`value_source`**: Optional. Specifies from where the values for the field should be derived.
 
@@ -210,7 +210,7 @@ Here's an example with the minimum fields:
 
 Entity types map your table names to internal definitions used in event generation. For instance, the script needs to know how npc's and dialogue are stored in your database so that it can generate npc's that initiate dialogue.
 
-You *must* at least define these entity types:
+You _must_ at least define these entity types:
 
 - `player`
 - `event`
@@ -226,15 +226,16 @@ These are the foundational elements of the game world and its logic. The script 
 
 Let say that in your database the data related to the human players is stored in the table characters:
 `characters`
-| Column      | Type   |
+| Column | Type |
 |-------------|--------|
-| ID PK       | int    |
-| first_name  | str    |
-| class       | str    |
-| strength    | int    |
-| intelligence| int    |
-| dexterity   | int    |
-| level       | int    |
+| ID PK | int |
+| first_name | str |
+| class | str |
+| strength | int |
+| intelligence| int |
+| dexterity | int |
+| level | int |
+| last_login | datetime |
 
 Then you can create an entity for your table as follows:
 
@@ -251,7 +252,7 @@ Then you can create an entity for your table as follows:
     {
       "name": "first_name",
       "datatype": "string",
-      "value_source" : "first_names"
+      "value_source": "first_names"
     },
     {
       "name": "class",
@@ -273,6 +274,10 @@ Then you can create an entity for your table as follows:
     {
       "name": "level",
       "datatype": "int"
+    },
+    {
+      "name": "last_login",
+      "datatype": "datetime"
     }
   ]
 }
@@ -286,28 +291,28 @@ The `value_source` can be any of the predefined categories ("blueprints", "enemy
 
 ## Value Source Descriptions
 
-| Key                 | Description                                                                                      |
-|---------------------|--------------------------------------------------------------------------------------------------|
-| `blueprints`        | Source for generating random blueprint data for in-game entities.                                |
-| `blueprint_types`   | Source for randomly selecting the types of blueprints available.                                 |
-| `enemy_names`       | Source for generating random names for enemy characters.                                         |
-| `enemy_types`       | Source for randomly classifying enemies into various categories.                                 |
-| `guild_names`       | Source for generating random names for different guilds.                                         |
-| `guild_types`       | Source for describing random types of guilds (e.g., trading, warrior).                           |
-| `team_names`        | Source for generating random team names for in-game squads.                                      |
-| `dialogues`         | Source for generating random dialogue lines for in-game conversations.                           |
-| `event_names`       | Source for generating random names for in-game events.                                           |
-| `first_names`       | Source for generating random first names for characters.                                         |
-| `last_names`        | Source for generating random last names for characters.                                          |
-| `item_names`        | Source for generating random names for in-game items.                                            |
-| `race_names`        | Source for randomly listing names of character races.                                            |
-| `race_descriptions` | Source for randomly listing descriptions of character races.                                     |
-| `item_types`        | Source for categorizing random item types (e.g., swords, potions).                               |
-| `class_names`       | Source for defining random classes available for characters.                                     |
-| `class_descriptions`| Source for providing brief descriptions of each randomly defined class.                          |
-| `kingdom_names`     | Source for generating random names for various kingdoms.                                         |
-| `npc_types`         | Source for specifying random types of Non-Playable Characters (NPCs).                            |
-| `npc_descriptions`  | Source for describing the roles of each randomly specified type of NPC.                          |
+| Key                  | Description                                                             |
+| -------------------- | ----------------------------------------------------------------------- |
+| `blueprints`         | Source for generating random blueprint data for in-game entities.       |
+| `blueprint_types`    | Source for randomly selecting the types of blueprints available.        |
+| `enemy_names`        | Source for generating random names for enemy characters.                |
+| `enemy_types`        | Source for randomly classifying enemies into various categories.        |
+| `guild_names`        | Source for generating random names for different guilds.                |
+| `guild_types`        | Source for describing random types of guilds (e.g., trading, warrior).  |
+| `team_names`         | Source for generating random team names for in-game squads.             |
+| `dialogues`          | Source for generating random dialogue lines for in-game conversations.  |
+| `event_names`        | Source for generating random names for in-game events.                  |
+| `first_names`        | Source for generating random first names for characters.                |
+| `last_names`         | Source for generating random last names for characters.                 |
+| `item_names`         | Source for generating random names for in-game items.                   |
+| `race_names`         | Source for randomly listing names of character races.                   |
+| `race_descriptions`  | Source for randomly listing descriptions of character races.            |
+| `item_types`         | Source for categorizing random item types (e.g., swords, potions).      |
+| `class_names`        | Source for defining random classes available for characters.            |
+| `class_descriptions` | Source for providing brief descriptions of each randomly defined class. |
+| `kingdom_names`      | Source for generating random names for various kingdoms.                |
+| `npc_types`          | Source for specifying random types of Non-Playable Characters (NPCs).   |
+| `npc_descriptions`   | Source for describing the roles of each randomly specified type of NPC. |
 
 You do not have to use these, not specifying a value_source in your json will generate random data for the given type.
 
@@ -317,7 +322,7 @@ You do not have to use these, not specifying a value_source in your json will ge
 
 2. **Value Sources**: You can choose to use predefined value sources or create their own categories. They can also decide not to use a value source for specific fields, like IDs or counters.
 
-3. **Data Types**: You can specify the data type for each field according to their need, choosing from "int", "string", or "float".
+3. **Data Types**: You can specify the data type for each field according to their need, choosing from "int", "string", "datetime" or "float".
 
 4. **Optional Types**: You must specify one primary key for each entity, the best option is to set it to name: "id" with datatype "int".
 
