@@ -208,6 +208,8 @@ Here's an example with the minimum fields:
 
 #### Entity Types
 
+Entity types map your table names to internal definitions used in event generation. For instance, the script needs to know how npc's and dialogue are stored in your database so that it can generate npc's that initiate dialogue.
+
 You *must* at least define these entity types:
 
 - `player`
@@ -222,14 +224,70 @@ You *must* at least define these entity types:
 You may assign more any type more than once. For instance: if you store NPC's in three different tables, then you can mark three entities as type `npc`. The script will then generate unique id's for all records over the three tables.
 These are the foundational elements of the game world and its logic. The script will generate events based on these types. Map these entity types to the tables that store them in your database.
 
+Let say that in your database the data related to the human players is stored in the table characters:
+`characters`
+| Column      | Type   |
+|-------------|--------|
+| ID PK       | int    |
+| first_name  | str    |
+| class       | str    |
+| strength    | int    |
+| intelligence| int    |
+| dexterity   | int    |
+| level       | int    |
+
+Then you can create an entity for your table as follows:
+
+```json
+{
+  "name": "character",
+  "type": "player",
+  "fields": [
+    {
+      "name": "id",
+      "datatype": "int",
+      "type": "primary_key"
+    },
+    {
+      "name": "first_name",
+      "datatype": "string",
+      "value_source" : "first_names"
+    },
+    {
+      "name": "class",
+      "datatype": "string",
+      "value_source": "class_names"
+    },
+    {
+      "name": "strength",
+      "datatype": "int"
+    },
+    {
+      "name": "intelligence",
+      "datatype": "int"
+    },
+    {
+      "name": "dexterity",
+      "datatype": "int"
+    },
+    {
+      "name": "level",
+      "datatype": "int"
+    }
+  ]
+}
+```
+
+Note the use of type `player` here, used to tell the script that this table holds player information in your game.
+
 #### Value Source
 
 The `value_source` can be any of the predefined categories ("blueprints", "enemy_names", "guild_names", etc.). These sources serve as the pool from which values for fields will be derived. So if you want the script to generate some meaningful values for a given table, use these to generate the following types of data:
 
 ## Value Source Descriptions
 
-| Key                 | Description                                                                                     |
-|---------------------|-------------------------------------------------------------------------------------------------|
+| Key                 | Description                                                                                      |
+|---------------------|--------------------------------------------------------------------------------------------------|
 | `blueprints`        | Source for generating random blueprint data for in-game entities.                                |
 | `blueprint_types`   | Source for randomly selecting the types of blueprints available.                                 |
 | `enemy_names`       | Source for generating random names for enemy characters.                                         |
@@ -242,15 +300,16 @@ The `value_source` can be any of the predefined categories ("blueprints", "enemy
 | `first_names`       | Source for generating random first names for characters.                                         |
 | `last_names`        | Source for generating random last names for characters.                                          |
 | `item_names`        | Source for generating random names for in-game items.                                            |
-| `race_names`        | Source for randomly listing names of character races.                                             |
-| `race_descriptions` | Source for randomly listing descriptions of character races.                                      |
-| `item_types`        | Source for categorizing random item types (e.g., swords, potions).                                |
-| `class_names`       | Source for defining random classes available for characters.                                      |
-| `class_descriptions`| Source for providing brief descriptions of each randomly defined class.                           |
+| `race_names`        | Source for randomly listing names of character races.                                            |
+| `race_descriptions` | Source for randomly listing descriptions of character races.                                     |
+| `item_types`        | Source for categorizing random item types (e.g., swords, potions).                               |
+| `class_names`       | Source for defining random classes available for characters.                                     |
+| `class_descriptions`| Source for providing brief descriptions of each randomly defined class.                          |
 | `kingdom_names`     | Source for generating random names for various kingdoms.                                         |
-| `npc_types`         | Source for specifying random types of Non-Playable Characters (NPCs).                             |
-| `npc_descriptions`  | Source for describing the roles of each randomly specified type of NPC.                           |
+| `npc_types`         | Source for specifying random types of Non-Playable Characters (NPCs).                            |
+| `npc_descriptions`  | Source for describing the roles of each randomly specified type of NPC.                          |
 
+You do not have to use these, not specifying a value_source in your json will generate random data for the given type.
 
 ### How Students Can Customize
 
