@@ -221,7 +221,7 @@ You _must_ at least define these entity types:
 - `guild`
 - `dialogue`
 
-You may assign more any type more than once. For instance: if you store NPC's in three different tables, then you can mark three entities as type `npc`. The script will then generate unique id's for all records over the three tables.
+You may assign any type _more than once_. For instance: if you store NPC's in three different tables, then you can mark three entities as type `npc`. The script will then generate unique id's for all records over the three tables. Moreover, the script will treat the `enemy` type as the `npc` type by generating non-overlapping id's for both entity types. That means that if you treat `enemy` as `npc` in your schema, the script will still generate importable data for both the `npc` and `enemy` types.
 These are the foundational elements of the game world and its logic. The script will generate events based on these types. Map these entity types to the tables that store them in your database.
 
 Let say that in your database the data related to the human players is stored in the table characters:
