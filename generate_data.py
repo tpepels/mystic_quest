@@ -323,14 +323,18 @@ for entity in entity_definitions:
 
             # Generate primary key and store with unique integer ID
             if field.get('type') == 'primary_key':
+                if entity_type == 'enemy':
+                    pk_type = 'npc'
+                else:
+                    pk_type = entity_type
                 # Initialize counter for new entities
-                if entity_type not in last_used_ids:
-                    last_used_ids[entity_type] = 0
+                if pk_type not in last_used_ids:
+                    last_used_ids[pk_type] = 0
                 
                 # Increment counter for the entity
-                last_used_ids[entity_type] += random.randint(1, 3)
+                last_used_ids[pk_type] += random.randint(1, 3)
                 # Store the primary key
-                record[field_name] = last_used_ids[entity_type]
+                record[field_name] = last_used_ids[pk_type]
 
             # Generate value from predefined lists if 'value_source' exists
             elif 'value_source' in field:
