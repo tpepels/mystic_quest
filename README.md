@@ -14,8 +14,6 @@ Or, if you're using Python 3, use:
 pip3 install prettytable
 ```
 
-Hi
-
 ## Background Story
 
 ### The Crisis
